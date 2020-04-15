@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1>Ma super agence immo</h1>
+    </div>
+</div>
+<div class="container">
+    <h2>Voici la liste de mes biens immo</h2>
+    <div class="row flex">
+    {% for property in allLastestProperties %}
+        <div class="col 3">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ path('show', {id: property.id, slug: property.slug}) }}"> {{ property.title }}</a></h5>
+                    <p class="card-text">{{ property.description }}</p>
+                    <p class="card-text" style="font-weight: bold; font-size: 2rem;">{{ property.formatedPrice }} €</p>
+                    <p class="card-text">{{ property.city }}</p>
+                    <a href="#" class="btn btn-primary">Acheter</a>
+                </div>
+            </div>   
+        </div>
+    {% endfor %}
+    </div>
+        
+</div>
+{% endblock %}
