@@ -1,0 +1,18 @@
+<div class="card mb-4" style="width: 18rem;">
+{% if property.filename %}
+<img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('thumb')}}" alt="" style="width: 100%; height: auto;">
+{% endif %}
+    <div class="card-body">
+        <h5 class="card-title">
+            <a href="{{ path('show', {id: property.id, slug: property.slug}) }}">
+                {{ property.title }}
+            </a>
+        </h5>
+        <p class="card-text">{{ property.description }}</p>
+        <p class="card-text" style="font-weight: bold;">{{ property.surface }} m²</p>
+        <p class="card-text" style="font-weight: bold; font-size: 2rem;">{{ property.formatedPrice }}
+            €</p>
+        <p class="card-text">{{ property.city }}</p>
+        <a href="#" class="btn btn-primary">Acheter</a>
+    </div>
+</div>

@@ -5,7 +5,35 @@
 {% block body %}
 <div class="jumbotron text-center">
 	<div class="container">
-		<h1>Voici la liste de mes biens immo</h1>		
+		{{ form_start(form) }}
+		<div class="form-row">
+			<div class="col">
+				{{ form_row(form.minSurface) }}
+			</div>
+			<div class="col">
+				{{ form_row(form.maxPrice) }}
+			</div>
+			<div class="col">
+				{{ form_row(form.options) }}
+			</div>
+			<div class="col">
+				<button type="submit" class="btn btn-primary">Rechercher</button>
+			</div>	
+		</div>
+		
+		{{ form_end(form) }}		
+	</div>
+</div>
+<div class="container">
+	<div class="row flex">
+		{% for property in properties %}
+			<div class="col 3">
+				{% include 'property/_property.html.twig' %}
+			</div>
+		{% endfor %}
+	</div>
+	<div class="navigation">
+    	{{ knp_pagination_render(properties) }}
 	</div>
 </div>
 {% endblock %}
