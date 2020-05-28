@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\Property;
+use App\Form\ContactType;
 use App\Entity\PropertySearch;
 use App\Form\PropertySearchType;
 use App\Repository\PropertyRepository;
+use App\Notification\ContactNotification;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,15 +48,30 @@ class PropertyController extends AbstractController
 
     /**
      *
-     * @Route("/biens/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/biens/{slug}-{id}", name="show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show($slug, $id)
+    public function show($slug, $id, Request $request, ContactNotification $contactNotification)
     {
         $property = $this->repo->find($id);
-        // $property = $this->repo->find($id);
+
+        $contact = new Contact();
+        $contact->setProperty($property);
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() &&  $form->isValid()) {
+            $contactNotification->notify($contact);
+            $this->addFlash('success', 'Votre mail a bien été envoyé');
+            return $this->redirectToRoute('show', [
+                'id' => $property->getId(),
+                'slug' => $property->getSlug()
+            ]);
+        }
+        $property = $this->repo->find($id);
         return $this->render("property/show.html.twig", [
             "menu" => "properties",
-            "property" => $property
+            "property" => $property,
+            "form" => $form->createView()
         ]);    
     }
 }

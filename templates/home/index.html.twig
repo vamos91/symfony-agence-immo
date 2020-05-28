@@ -13,7 +13,7 @@
     {% for property in allLastestProperties %}
         <div class="col 3">
             <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+                
                 <div class="card-body">
                     <h5 class="card-title"><a href="{{ path('show', {id: property.id, slug: property.slug}) }}"> {{ property.title }}</a></h5>
                     <p class="card-text">{{ property.description }}</p>

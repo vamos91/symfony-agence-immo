@@ -3,6 +3,9 @@
 
 {% block body %}
 <div class="jumbotron">
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">{{ message }}</div>
+{% endfor %}
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -17,7 +20,21 @@
                     {{ property.surface }}m carré</h2>
                 <div class="text-primary" style="font-size: 4rem; font-weight: bold;">{{ property.formatedPrice }}
                     €</div>
-                <a href="#" class="btn btn-primary">Contactez l'agence</a>
+                <a href="#" class="btn btn-primary" id="contactButton" {% if form.vars.submitted %} style="display:none;" {% endif %}>Contactez l'agence</a>
+                <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display:none;" {% endif %}>
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.firstname) }}</div>
+                        <div class="col">{{ form_row(form.lastname) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.phone) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    {{ form_rest(form) }}
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
@@ -48,7 +65,7 @@
                 </tr>
                 <tr>
                     <td>Chauffage</td>
-                    <td>{{ property.heatType }}</td>
+                    <td>{{ property.heat }}</td>
                 </tr>
             </table>
         </div>
@@ -62,5 +79,5 @@
         </div>
    </div>
 </div>
-
+<div id="mapid"></div>
 {% endblock %}
